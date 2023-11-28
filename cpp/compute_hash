@@ -1,0 +1,19 @@
+
+const int MOD=1073676287;
+const long long MAXN = 6e5 + 10, prime = 809;
+ll pow1[MAXN];
+
+void calculate_power(){
+	pow1[0] = 1;
+	for (int i = 1; i < MAXN; i++){
+		pow1[i] = pow1[i - 1] * prime % MOD;
+	}
+}
+long long compute_hash(string const& s) {
+	ll hash=0;
+	for (int i = 0; i < s.size(); i++){
+    hash += (s[i]-'a'+1) * pow1[i] % MOD;
+		hash %= MOD;
+	}
+    return hash;
+}
