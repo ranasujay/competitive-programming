@@ -1,0 +1,31 @@
+long getMaxProfit(vector<int> pnl, int k) {
+    int n = pnl.size();
+    long maxprofit = 0;
+    int i;
+    long profit = 0;
+    int start = 0;
+    for(i=0;i<n;i++) {
+        profit += pnl[i];
+        if (profit <= 0) {
+            profit = 0;
+            start = i+1;
+        } else {
+            maxprofit = max(maxprofit , profit);
+            //slide window if it's size is k
+            if (i-start+1 == k) {
+                //pnl[start] can never be negative because if it is 
+                //negative it would have been removed in previous 
+                //minimization
+                profit -= pnl[start];
+                start++;
+            }
+             //minimize window if it's size is k
+            while(pnl[start] <= 0 && start <=i) {
+                profit -= pnl[start];
+                maxprofit = max(maxprofit , profit);
+                start++;
+            }
+        }
+    }
+    return maxprofit;
+}
