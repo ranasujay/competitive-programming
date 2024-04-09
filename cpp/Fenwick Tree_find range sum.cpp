@@ -30,8 +30,6 @@ class fenwickTree{
         freq.resize(n,0);
     }
 
-    public:
-
     void update(int i, int num){
         while(i<n){
             freq[i]+=num;
@@ -49,6 +47,16 @@ class fenwickTree{
     int rangeSum(int l, int r){
         return sum(r)-sum(l-1);
     }
+    int lowerBound_in_presum(int k){
+        int curr = 0, ans = 0, prevsum = 0;
+        for(int i = log2(n);i>=0;i--){
+            if(freq[curr+(1<<i)]+prevsum < k){
+                curr+=(1<<i);
+                prevsum+=freq[curr];
+            }
+        }
+        return curr+1;
+    }
 };
 
 
@@ -63,6 +71,7 @@ void solve(){
     for(int i=0;i<n;i++){
         fq.update(i+1,a[i]);
     }
+    cout << fq.lowerBound_in_presum(5) << endl;
     cout << fq.rangeSum(5,5) << endl;
 
 
