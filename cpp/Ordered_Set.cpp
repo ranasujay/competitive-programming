@@ -1,14 +1,22 @@
 #include <bits/stdc++.h> 
 using namespace std; 
 
-// add the header from here
+// add for ordered set the header from here
 
 #include <ext/pb_ds/assoc_container.hpp> 
 #include <ext/pb_ds/tree_policy.hpp> 
 using namespace __gnu_pbds; 
 #define ordered_set tree<int, null_type,less<int>, rb_tree_tag,tree_order_statistics_node_update> 
-
 // header file ends here
+
+
+// add for ordered multiset use this header file
+
+#include <ext/pb_ds/assoc_container.hpp> 
+#include <ext/pb_ds/tree_policy.hpp> 
+using namespace __gnu_pbds; 
+#define ordered_set tree<int, null_type,less_equal<int>, rb_tree_tag,tree_order_statistics_node_update> 
+//ends
 
 int main(){
     ordered_set o_set;
