@@ -44,6 +44,9 @@ ll nCr(ll N, ll R){
     if(N<0 || R<0 || R>N){
         return 0;
     }
+    else if(N==R){
+        return 1;
+    }
     ll num = fact[N];
     ll dem = (inverse(R)*inverse(N-R))%mod;
     return (num*dem)%mod;
