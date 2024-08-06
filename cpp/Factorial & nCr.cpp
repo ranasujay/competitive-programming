@@ -10,57 +10,45 @@
 const int mod=1000000007;
 using namespace std;
 
-const int MAXN = 1e6;
-ll fact[MAXN],invfact[MAXN];
+const int N = 1e6+1;
+ll fact[N + 1];
+ll InvNum[N + 1];
+ll Invfact[N + 1];
 
-ll power(ll a,ll b){
-    if(b==0){
-        return 1;
-    }
-    if(b%2==0){
-        ll X = power(a,b/2);
-        return (X*X)%mod;
-    }
-    else{
-        ll X = power(a,b/2);
-        ll ans = (X*X)%mod;
-        return (ans*a)%mod;
+ 
+void invOfNum(){
+    InvNum[0] = InvNum[1] = 1;
+    for (int i = 2; i <= N; i++)
+        InvNum[i] = InvNum[mod % i] * (mod - mod / i) % mod;
+}
+void invOfFact(){
+    Invfact[0] = Invfact[1] = 1;
+    for (int i = 2; i <= N; i++)
+        Invfact[i] = (InvNum[i] * Invfact[i - 1]) % mod;
+}
+void factorial(){
+    fact[0] = 1;
+    for (int i = 1; i <= N; i++) {
+        fact[i] = (fact[i - 1] * i) % mod;
     }
 }
-
-ll inverse(ll a){
-    return power(a,mod-2);
-}
-
 void compute_factorial(){
-    fact[0]=1;
-    invfact[0]=1;
-    for(int i=1;i<MAXN;i++){
-        fact[i]=(i*fact[i-1])%mod;
-        invfact[i]=inverse(fact[i]);
-    }
+    factorial();
+    invOfNum();
+    invOfFact();
 }
 ll nCr(ll N, ll R){
-    if(N<0 || R<0 || R>N){
-        return 0;
-    }
-    else if(N==R){
-        return 1;
-    }
-    ll num = fact[N];
-    ll dem = (inverse(R)*inverse(N-R))%mod;
-    return (num*dem)%mod;
+    ll ans = ((fact[N] * Invfact[R])% mod * Invfact[N - R])% mod;
+    return ans;
 }
-
-
+ 
 void solve(){
     int n,r;
     compute_factorial();
-
     cin >> n >> r;
     cout << n << r << endl;
     cout << fact[n] << endl;
-    cout << invfact[n] << endl;
+    cout << Invfact[n] << endl;
     cout << nCr(n,r) << endl;
 }
 
