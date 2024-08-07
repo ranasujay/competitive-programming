@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 #define fio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+#define int long long
 #define ll long long
 #define ld long double
 #define eb emplace_back
@@ -11,36 +12,33 @@ const int mod=1000000007;
 using namespace std;
 
 const int N = 1e6+1;
-ll fact[N + 1];
-ll InvNum[N + 1];
-ll Invfact[N + 1];
 
+int fact[N], invfact[N];
+
+int power(int a, int b) {
+	int res = 1;
+	while (b) {
+		if (b & 1) res = 1ll * res * a % mod;
+		a = 1ll * a * a % mod;
+		b >>= 1;
+	}
+	return res;
+}
  
-void invOfNum(){
-    InvNum[0] = InvNum[1] = 1;
-    for (int i = 2; i <= N; i++)
-        InvNum[i] = InvNum[mod % i] * (mod - mod / i) % mod;
+ 
+void compute_factorial() {
+	fact[0] = invfact[0] = 1;
+	for (int i = 1; i < N; i++) {
+		fact[i] = 1ll * fact[i - 1] * i % mod;
+		invfact[i] = power(fact[i], mod - 2);
+	}
 }
-void invOfFact(){
-    Invfact[0] = Invfact[1] = 1;
-    for (int i = 2; i <= N; i++)
-        Invfact[i] = (InvNum[i] * Invfact[i - 1]) % mod;
+ 
+int nCr(int n, int k) {
+	if (k > n) return 0;
+	return 1ll * fact[n] * invfact[k] % mod * invfact[n - k] % mod;
 }
-void factorial(){
-    fact[0] = 1;
-    for (int i = 1; i <= N; i++) {
-        fact[i] = (fact[i - 1] * i) % mod;
-    }
-}
-void compute_factorial(){
-    factorial();
-    invOfNum();
-    invOfFact();
-}
-ll nCr(ll N, ll R){
-    ll ans = ((fact[N] * Invfact[R])% mod * Invfact[N - R])% mod;
-    return ans;
-}
+
  
 void solve(){
     int n,r;
